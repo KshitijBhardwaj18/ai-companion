@@ -1,35 +1,37 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import { ClerkProvider } from '@clerk/nextjs'
 
-import { ThemeProvider } from "@/components/theme-provider";
+import { cn } from '@/lib/utils';
+import { ThemeProvider } from '@/components/theme-provider'
+import { Toaster } from '@/components/ui/toaster';
+import { ProModal } from '@/components/pro-modal';
 
-import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
+import './globals.css'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Campanion.ai",
-  description: "made by kshitij Bhardwaj",
-};
+  title: 'Companion.AI',
+  description: 'Your customized companion.',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={cn("bg-secondary", inter.className)}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            <ProModal />
             {children}
-            <Toaster/>
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
-  );
+  )
 }

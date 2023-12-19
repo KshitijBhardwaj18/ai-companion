@@ -1,15 +1,14 @@
 "use client";
 
+import { ElementRef, useEffect, useRef, useState } from "react";
 import { Companion } from "@prisma/client";
-
-import { useState,useEffect, useRef } from "react";
 
 import { ChatMessage, ChatMessageProps } from "@/components/chat-message";
 
 interface ChatMessagesProps {
   messages: ChatMessageProps[];
   isLoading: boolean;
-  companion: Companion;
+  companion: Companion
 }
 
 export const ChatMessages = ({
@@ -17,23 +16,24 @@ export const ChatMessages = ({
   isLoading,
   companion,
 }: ChatMessagesProps) => {
-    const scrollRef = useRef<ElementRef<"div">>(null);
+  const scrollRef = useRef<ElementRef<"div">>(null);
 
-    const [fakeLoading, setFakeLoading] = useState(messages.length === 0 ? true : false);
+  const [fakeLoading, setFakeLoading] = useState(messages.length === 0 ? true : false);
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setFakeLoading(false);
-        }, 1000)
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setFakeLoading(false);
+    }, 1000);
 
-        return () => {
-          clearTimeout(timeout);
-        }
-    }, [messages.length]);
+    return () => {
+      clearTimeout(timeout);
+    }
+  }, []);
 
-    useEffect(() => {
-      scrollRef?.current?.scrollIntoView({ behavior: "smooth"});
-    }, [])
+  useEffect(() => {
+    scrollRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages.length]);
+
   return (
     <div className="flex-1 overflow-y-auto pr-4">
       <ChatMessage
@@ -42,28 +42,22 @@ export const ChatMessages = ({
         role="system"
         content={`Hello, I am ${companion.name}, ${companion.description}`}
       />
-
-      {
-        messages.map((message) => (
-          <ChatMessage
-            key={message.content}
-            role={message.role}
-            content={message.content}
-            src={message.src}
-          />
-
-        )) 
-      }
-
+      {messages.map((message) => (
+        <ChatMessage
+          key={message.content}
+          src={companion.src}
+          content={message.content}
+          role={message.role}
+        />
+      ))}
       {isLoading && (
-        <ChatMessage role="system" src={companion.src} isLoading/>
+        <ChatMessage
+          src={companion.src}
+          role="system"
+          isLoading
+        />
       )}
-
       <div ref={scrollRef} />
-
-      
-
-
     </div>
   );
 };
