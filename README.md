@@ -8,7 +8,7 @@ This is demo project showcasing my backend skill and my abitlity to work with ll
 ### Cloning the repository
 
 ```shell
-git clone https://github.com/AntonioErdeljac/next13-ai-saas.git
+git clone https://github.com/KshitijBhardwaj18/ai-companion
 ```
 
 ### Install packages
